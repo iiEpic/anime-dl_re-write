@@ -460,18 +460,3 @@ class Crunchyroll(object):
                 print(NoRtmpDump)
         else:
             return True, m3u8_file_link
-
-    def resolution_finder(self, resolution, video_id, url):
-        resolution_to_find = None
-        info_url = ""
-        
-        
-
-        logging.debug("info_url : {0}".format(info_url))
-
-        if resolution_to_find is None:
-            print('Unknown requested resolution %s' % str(resolution).lower())
-            return False, None, None
-
-        else:
-            return True, resolution_to_find, info_url
