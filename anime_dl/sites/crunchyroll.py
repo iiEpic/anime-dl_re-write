@@ -225,7 +225,7 @@ class Crunchyroll(object):
 
     def episode_information_extractor(self, page_source, resolution_to_find):
         anime_name = re.sub(r'[^A-Za-z0-9\ \-\' \\]+', '', str(re.search(r'<series_title>(.*?)</series_title>', page_source).group(1))).title().strip()
-        episode_number = re.search(r'<episode_number>(.*?)</episode_number>', page_source.decode("utf-8")).group(1)
+        episode_number = re.search(r'<episode_number>(.*?)</episode_number>', page_source).group(1)
         video_resolution = resolution_to_find
 
         return anime_name, episode_number, video_resolution
@@ -331,57 +331,38 @@ class Crunchyroll(object):
     def sub_prepare(self):
         subtitles_files = []
         for sub_file in glob("*.ass"):
-            if sub_file.endswith(".enUS.ass"):
-                subtitles_files.insert(0,
-                                       "--track-name 0:English_US --language 0:eng --default-track 0:yes --sub-charset 0:utf-8 " + '"' + str(
-                                           os.path.realpath(sub_file)) + '" ')
+            file_lang = (sub_file[-8:])[:4]
 
-            elif sub_file.endswith(".enGB.ass"):
-                subtitles_files.append(
-                    "--track-name 0:English_UK --language 0:eng --default-track 0:no --sub-charset 0:utf-8 " + '"' + str(
-                        os.path.realpath(sub_file)) + '" ')
-
-            elif sub_file.endswith(".esLA.ass"):
-                subtitles_files.append(
-                    "--track-name 0:Espanol --language 0:spa --default-track 0:no --sub-charset 0:utf-8 " + '"' + str(
-                        os.path.realpath(sub_file)) + '" ')
-            elif sub_file.endswith(".esES.ass"):
-                subtitles_files.append(
-                    "--track-name 0:Espanol_Espana --language 0:spa --default-track 0:no --sub-charset 0:utf-8 " + '"' + str(
-                        os.path.realpath(sub_file)) + '" ')
-            elif sub_file.endswith(".ptBR.ass"):
-                subtitles_files.append(
-                    "--track-name 0:Portugues_Brasil --language 0:por --default-track 0:no --sub-charset 0:utf-8 " + '"' + str(
-                        os.path.realpath(sub_file)) + '" ')
-            elif sub_file.endswith(".ptPT.ass"):
-                subtitles_files.append(
-                    "--track-name 0:Portugues_Portugal --language 0:por --default-track 0:no --sub-charset 0:utf-8 " + '"' + str(
-                        os.path.realpath(sub_file)) + '" ')
-            elif sub_file.endswith(".frFR.ass"):
-                subtitles_files.append(
-                    "--track-name 0:Francais_France --language 0:fre --default-track 0:no --sub-charset 0:utf-8 " + '"' + str(
-                        os.path.realpath(sub_file)) + '" ')
-            elif sub_file.endswith(".deDE.ass"):
-                subtitles_files.append(
-                    "--track-name 0:Deutsch --language 0:ger --default-track 0:no --sub-charset 0:utf-8 " + '"' + str(
-                        os.path.realpath(sub_file)) + '" ')
-            elif sub_file.endswith(".arME.ass"):
-                subtitles_files.append(
-                    "--track-name 0:Arabic --language 0:ara --default-track 0:no --sub-charset 0:utf-8 " + '"' + str(
-                        os.path.realpath(sub_file)) + '" ')
-            elif sub_file.endswith(".itIT.ass"):
-                subtitles_files.append(
-                    "--track-name 0:Italiano --language 0:ita --default-track 0:no --sub-charset 0:utf-8 " + '"' + str(
-                        os.path.realpath(sub_file)) + '" ')
-            elif sub_file.endswith(".trTR.ass"):
-                subtitles_files.append(
-                    "--track-name 0:Turkce --language 0:tur --default-track 0:no --sub-charset 0:utf-8 " + '"' + str(
-                        os.path.realpath(sub_file)) + '" ')
+            if file_lang == "enUS":
+                track_name, lang, default_track = "English_US", "eng", "yes"
+            elif file_lang == "enGB":
+                track_name, lang, default_track = "English_UK", "eng", "no"
+            elif file_lang == "esLA":
+                track_name, lang, default_track = "Espanol", "spa", "no"
+            elif file_lang == "esES":
+                track_name, lang, default_track = "Espanol_Espana", "spa", "no"
+            elif file_lang == "ptBR":
+                track_name, lang, default_track = "Portugues_Brasil", "por", "no"
+            elif file_lang == "ptPT":
+                track_name, lang, default_track = "Portugues_Portugal", "por", "no"
+            elif file_lang == "frFR":
+                track_name, lang, default_track = "Francais_France", "fre", "no"
+            elif file_lang == "deDE":
+                track_name, lang, default_track = "Deutsch", "ger", "no"
+            elif file_lang == "arME":
+                track_name, lang, default_track = "Arabic", "ara", "no"
+            elif file_lang == "itIT":
+                track_name, lang, default_track = "Italiano", "ita", "no"
+            elif file_lang == "trTR":
+                track_name, lang, default_track = "Turkce", "tur", "no"
             else:
-                subtitles_files.append(
-                    "--track-name 0:und --default-track 0:no --sub-charset 0:utf-8 " + '"' + str(
-                        os.path.realpath(sub_file)) + '" ')
+                track_name, lang, default_track = "und", "eng", "no"
 
+            subtitles_files.append(
+                "--track-name 0:{0} --language 0:{1} --default-track 0:{2} ".format(track_name, lang, default_track) +
+                "--sub-charset 0:utf-8 " +
+                '"{0}"'.format(str(os.path.realpath(sub_file)))
+            )
         subs_files = anime_dl.common.misc.duplicate_remover(subtitles_files)
         logging.debug("subs_files : {0}".format(subs_files))
         return subs_files
@@ -398,7 +379,7 @@ class Crunchyroll(object):
 
         if xml_page_connect:
             xml_page_connect = str(xml_page_connect)
-            stream_exists, m3u8_file_link = self.m3u8_finder(xml_page_source=xml_page_connect)
+            stream_exists = self.m3u8_finder(xml_page_source=xml_page_connect)
 
             if stream_exists:
                 anime_name, episode_number, video_resolution = self.episode_information_extractor(
@@ -429,7 +410,6 @@ class Crunchyroll(object):
             else:
                 print("Stream Not Found. Subtitle Downloading Failed.")
                 return False
-
 
     def ffmpeg_call(self, m3u8_text, file_name):
         try:

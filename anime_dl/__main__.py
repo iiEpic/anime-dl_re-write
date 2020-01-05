@@ -5,18 +5,21 @@
 __author__ = "Xonshiz"
 __email__ = "xonshiz@gmail.com"
 """
-import os,sys,inspect
-currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-parentdir = os.path.dirname(currentdir)
-sys.path.insert(0,parentdir) 
-import anime_dl
+import os
+import sys
+import inspect
+import argparse
+import logging
+import platform
+
+current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+parent_dir = os.path.dirname(current_dir)
+sys.path.insert(0, parent_dir)
 
 from Anime_dl import *
 from sys import exit
 from version import __version__
-import argparse
-import logging
-import platform
+
 
 
 class Main():

@@ -69,3 +69,12 @@ anime_dl/sites/funimation - Copy.py
 *.ttf
 *.html
 anime_dl/build/__main__/warn-__main__.txt
+*.css
+ffmpeg-20200102-81172b5-win64-static/LICENSE.txt
+*.xsd
+*.ffpreset
+ffmpeg-20200102-81172b5-win64-static/README.txt
+rtmpdump-2.4-2015-12-15/LibRTMP License.txt
+rtmpdump-2.4-2015-12-15/librtmp.dll
+rtmpdump-2.4-2015-12-15/License.txt
+rtmpdump-2.4-2015-12-15/Patch.diff
