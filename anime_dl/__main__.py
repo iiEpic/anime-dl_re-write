@@ -21,7 +21,6 @@ from sys import exit
 from version import __version__
 
 
-
 class Main():
     if __name__ == '__main__':
         parser = argparse.ArgumentParser(description='anime_dl downloads anime from CrunchyRoll and Funimation.')
