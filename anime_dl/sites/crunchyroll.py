@@ -34,6 +34,7 @@ class Crunchyroll(object):
                                                                                             username=username[0],
                                                                                             password=password[0],
                                                                                             country=crunchy_language)
+
         if login_response:
             if crunchy_video:
                 if skipper == "yes":
@@ -51,9 +52,8 @@ class Crunchyroll(object):
     def single_episode(self, url, cookies, token, resolution, output):
         if type(resolution) == list:
             for res in resolution:
-                done = self.download_show(url, cookies, token, resolution, output)
-                if done:
-                    exit(1)
+                if self.download_show(url, cookies, token, res, output):
+                    break
         elif not resolution == "720":
             self.download_show(url, cookies, token, resolution, output)
         else:
@@ -144,9 +144,8 @@ class Crunchyroll(object):
                     
                     if type(resolution) == list:
                         for res in resolution:
-                            done = self.only_subs(url=episode_url, cookies=cookie, resolution=res, output=output)
-                            if done:
-                                pass
+                            if self.only_subs(url=episode_url, cookies=cookie, resolution=res, output=output):
+                                break
                     elif not resolution == "720":
                         self.only_subs(url=episode_url, cookies=cookie, resolution=resolution, output=output)
                     else:

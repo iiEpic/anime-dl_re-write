@@ -20,7 +20,7 @@ def page_downloader(url, scrapper_delay=5, **kwargs):
     sess = session()
     sess = create_scraper(sess, delay=scrapper_delay)
 
-    connection = sess.get(url, headers=headers, cookies=received_cookies)
+    connection = sess.get(url, headers=headers,cookies=received_cookies)
 
     if connection.status_code != 200:
         print("Whoops! Seems like I can't connect to website.")
@@ -30,7 +30,6 @@ def page_downloader(url, scrapper_delay=5, **kwargs):
         return False, None, None
     else:
         page_source = BeautifulSoup(connection.text.encode("utf-8"), "html.parser")
-        connection_cookies = sess.cookies
 
         return True, page_source, received_cookies
 
