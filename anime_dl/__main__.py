@@ -4,6 +4,8 @@
 """
 __author__ = "Xonshiz"
 __email__ = "xonshiz@gmail.com"
+__author__ = "iEpic"
+__email__ = "epicunknown@gmail.com"
 """
 import os
 import sys
@@ -16,7 +18,7 @@ current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfra
 parent_dir = os.path.dirname(current_dir)
 sys.path.insert(0, parent_dir)
 
-from Anime_dl import *
+from Anime_dl import AnimeDL
 from sys import exit
 from version import __version__
 
@@ -37,6 +39,7 @@ class Main():
                             default='All')
         parser.add_argument('-o', '--output', nargs=1, help='Specifies the directory of which to save the files.')
         parser.add_argument('--skip', action='store_true', help='skips the video download and downloads only subs.')
+        parser.add_argument('-nl', '--nologin', action='store_true', help='Skips login (Only download 480).')
         parser.add_argument("-v", "--verbose", help="Prints important debugging messages on screen.",
                             action="store_true")
         logger = "False"
@@ -59,6 +62,10 @@ class Main():
         if args.skip:
             print("Will be skipping video downloads")
             skipper = "yes"
+
+        if args.nologin:
+            args.username = ['username']
+            args.password = ['password']
 
         if args.username is None or args.password is None or args.input is None:
             print("Please enter the required arguments. Run __main__.py --help")

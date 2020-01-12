@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['__main__.py'],
-             pathex=['C:\\Users\\David\\Documents\\GitHub\\anime-dl_re-write\\_main\\anime_dl'],
+             pathex=['C:\\Users\\David\\Documents\\GitHub\\anime-dl_re-write\\_no_login\\anime_dl'],
              binaries=[],
              datas=[],
              hiddenimports=['queue'],

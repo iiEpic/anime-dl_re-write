@@ -34,7 +34,7 @@ def page_downloader(url, scrapper_delay=5, **kwargs):
         return True, page_source, received_cookies
 
 
-def login_crunchyroll(url, username, password, country):
+def login_crunchyroll(username, password, resolution):
     headers = {
         'user-agent':
             'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36',
@@ -58,6 +58,10 @@ def login_crunchyroll(url, username, password, country):
         except Exception:
             csrf_token = re.search(r'login_form\[_token\]" type="hidden" value="(.*?)"',
                                    str(initial_page_source)).group(1)
+
+        if resolution == '480':
+            print('Skipping login...')
+            return True, initial_cookies, csrf_token
 
         payload = {
             'login_form[name]': '%s' % username,

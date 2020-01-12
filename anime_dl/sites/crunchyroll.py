@@ -30,10 +30,9 @@ class Crunchyroll(object):
         crunchy_show = re.match(crunchy_show_regex, url)
         crunchy_video = re.match(crunchy_video_regex, url)
 
-        login_response, cookies, token = anime_dl.common.browser_instance.login_crunchyroll(url=url,
-                                                                                            username=username[0],
+        login_response, cookies, token = anime_dl.common.browser_instance.login_crunchyroll(username=username[0],
                                                                                             password=password[0],
-                                                                                            country=crunchy_language)
+                                                                                            resolution=resolution)
 
         if login_response:
             if crunchy_video:
