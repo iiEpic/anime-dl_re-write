@@ -199,7 +199,7 @@ class Crunchyroll(object):
         for single_node in chap_holder_div:
             href_value = single_node["href"]
             title_value = single_node["title"]
-            if "(Dub)" in u' '.join(title_value).encode('utf-8').strip():
+            if b"(Dub)" in u' '.join(title_value).encode('utf-8').strip():
                 dub_list.append(str(url) + "/" + str(str(href_value).split("/")[-1]))
             else:
                 ep_sub_list.append(str(url) + "/" + str(str(href_value).split("/")[-1]))
@@ -330,31 +330,27 @@ class Crunchyroll(object):
         subtitles_files = []
         for sub_file in glob("*.ass"):
             file_lang = (sub_file[-8:])[:4]
-
-            if file_lang == "enUS":
-                track_name, lang, default_track = "English_US", "eng", "yes"
-            elif file_lang == "enGB":
-                track_name, lang, default_track = "English_UK", "eng", "no"
-            elif file_lang == "esLA":
-                track_name, lang, default_track = "Espanol", "spa", "no"
-            elif file_lang == "esES":
-                track_name, lang, default_track = "Espanol_Espana", "spa", "no"
-            elif file_lang == "ptBR":
-                track_name, lang, default_track = "Portugues_Brasil", "por", "no"
-            elif file_lang == "ptPT":
-                track_name, lang, default_track = "Portugues_Portugal", "por", "no"
-            elif file_lang == "frFR":
-                track_name, lang, default_track = "Francais_France", "fre", "no"
-            elif file_lang == "deDE":
-                track_name, lang, default_track = "Deutsch", "ger", "no"
-            elif file_lang == "arME":
-                track_name, lang, default_track = "Arabic", "ara", "no"
-            elif file_lang == "itIT":
-                track_name, lang, default_track = "Italiano", "ita", "no"
-            elif file_lang == "trTR":
-                track_name, lang, default_track = "Turkce", "tur", "no"
+            langs = {"enUS":("English_US", "eng", "yes"),
+                     "enGB":("English_UK", "eng"),
+                     "esLA":("Espanol", "spa"),
+                     "esES":("Espanol_Espana", "spa"),
+                     "ptBR":("Portugues_Brasil", "por"),
+                     "ptPT":("Portugues_Portugal", "por"),
+                     "frFR":("Francais_France", "fre"),
+                     "deDE":("Deutsch", "ger"),
+                     "arME":("Arabic", "ara"),
+                     "itIT":("Italiano", "ita"),
+                     "trTR":("Turkce", "tur"),
+                     "ruRU":("Russian", "rus")}
+            
+            if file_lang in langs:
+                try:
+                    track_name, lang, default_track = langs[file_lang]
+                except:
+                    track_name, lang = langs[file_lang]
+                    default_track = "no"
             else:
-                track_name, lang, default_track = "und", "eng", "no"
+                track_name, lang, default_track = "und", "und", "no"
 
             subtitles_files.append(
                 "--track-name 0:{0} --language 0:{1} --default-track 0:{2} ".format(track_name, lang, default_track) +
