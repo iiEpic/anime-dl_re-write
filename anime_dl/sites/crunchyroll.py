@@ -199,7 +199,7 @@ class Crunchyroll(object):
         for single_node in chap_holder_div:
             href_value = single_node["href"]
             title_value = single_node["title"]
-            if b"(Dub)" in u' '.join(title_value).encode('utf-8').strip():
+            if b'(Dub)' in u' '.join(title_value).encode('utf-8').strip():
                 dub_list.append(str(url) + "/" + str(str(href_value).split("/")[-1]))
             else:
                 ep_sub_list.append(str(url) + "/" + str(str(href_value).split("/")[-1]))
