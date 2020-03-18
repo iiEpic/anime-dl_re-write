@@ -15,7 +15,7 @@ website. I don't remember why I added an extra step, I really don't. Oh well, it
 
 class AnimeDL(object):
 
-    def __init__(self, url, username, password, resolution, language, skipper, logger, episode_range, output):
+    def __init__(self, url, username, password, resolution, language, skipper, logger, episode_range, output, settings):
 
         website = str(self.honcho(url=url[0]))
 
@@ -27,7 +27,7 @@ class AnimeDL(object):
 
                 sites.crunchyroll.Crunchyroll(
                     url=url[0], password=password, username=username, resolution=resolution, language=language,
-                    skipper=skipper, logger=logger, episode_range=episode_range, output=output)
+                    skipper=skipper, logger=logger, episode_range=episode_range, output=output, settings=settings)
 
         elif website == "VRV":
             print("Not Implemented")

@@ -21,10 +21,14 @@ sys.path.insert(0, parent_dir)
 from Anime_dl import AnimeDL
 from sys import exit
 from version import __version__
+from Settings import Settings
 
 
 class Main():
     if __name__ == '__main__':
+        # Run the settings script
+        settings = Settings()
+
         parser = argparse.ArgumentParser(description='anime_dl downloads anime from CrunchyRoll and Funimation.')
 
         parser.add_argument('--version', action='store_true', help='Shows version and exits.')
@@ -91,4 +95,4 @@ class Main():
 
             AnimeDL(url=args.input, username=args.username, password=args.password,
                     resolution=args.resolution, language=args.language, skipper=skipper,
-                    logger=logger, episode_range=args.range, output=args.output)
+                    logger=logger, episode_range=args.range, output=args.output, settings=settings)
