@@ -3,3 +3,4 @@
 *.spec
 *.exe
 anime_dl/settings.json
+*.zip
