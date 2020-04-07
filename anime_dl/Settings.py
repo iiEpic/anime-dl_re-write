@@ -15,7 +15,7 @@ class Settings:
 
     def __init__(self):
         self.loaded_settings = {}
-        self.path = self.path = sys.argv[0].replace('__main__.py', '') + 'settings.json'
+        self.path = sys.argv[0].replace('__main__.exe', '').replace('__main__.py', '') + 'settings.json'
         # Does settings.json file exist?
         if os.path.exists(self.path):
             # Load up the settings
